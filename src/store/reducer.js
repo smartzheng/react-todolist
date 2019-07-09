@@ -1,4 +1,9 @@
-import {ADD_TODO_ITEM, CHANGE_INPUT_VALUE, DELETE_TODO_ITEM} from "./actionTypes";
+import {
+    ADD_TODO_ITEM,
+    ADD_TODO_LIST,
+    CHANGE_INPUT_VALUE,
+    DELETE_TODO_ITEM
+} from "./actionTypes";
 
 const defaultState = {
     inputValue: '',
@@ -25,6 +30,11 @@ const reducer = (state = defaultState, action) => {
         case DELETE_TODO_ITEM: {
             const newState = JSON.parse(JSON.stringify(state));
             newState.list.splice(action.index, 1);
+            return newState;
+        }
+        case ADD_TODO_LIST: {
+            const newState = JSON.parse(JSON.stringify(state));
+            newState.list = action.list;
             return newState;
         }
 

@@ -1,15 +1,28 @@
-import React, {Fragment} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux'
 import './TodoList.css'
 import TodoItem from "./TodoItem";
-import {addTodoItemAction, deleteTodoItemAction, getChangeInputAction} from "./store/actionCreator";
+import {
+    addTodoItemAction,
+    deleteTodoItemAction,
+    getChangeInputAction,
+    getTodoListAction
+} from "./store/actionCreator";
 
-const TodoList = (props) => {
+class TodoList extends Component {
+    state = {
+        list: [],
+        inputValue: ''
+    };
 
-    const {inputValue, list, handleInputChange, handleSubmit, handleItemDelete} = props;
+    componentDidMount() {
+        this.props.getTotoList()
+    };
 
-    return (
-        <Fragment>
+    render() {
+        const {inputValue, list, handleInputChange, handleSubmit, handleItemDelete} = this.props;
+        console.log('render');
+        return <Fragment>
             <label htmlFor={'insertArea'}>输入内容</label>
             <input
                 className={'input'}
@@ -22,36 +35,39 @@ const TodoList = (props) => {
             </button>
             <ul>
                 {list.map((item, index) => {
-                    return getTodoItem(item, index)
+                    return <TodoItem
+                        content={item}
+                        index={index}
+                        deleteItem={handleItemDelete}
+                        key={index}/>;
                 })}
             </ul>
         </Fragment>
-    );
-
-    function getTodoItem(item, index) {
-        return <TodoItem
-            content={item}
-            index={index}
-            deleteItem={handleItemDelete}
-            key={index}/>;
-    }
+    };
 };
 
-const mapStateToProps = (state) => ({
-    inputValue: state.inputValue,
-    list: state.list
-});
+const mapStateToProps = (state) => {
+    return ({
+        inputValue: state.inputValue,
+        list: state.list
+    });
+};
 
-const mapDispatchToProps = (dispatch) => ({
-    handleInputChange: (e) => {
-        dispatch(getChangeInputAction(e.target.value));
-    },
-    handleSubmit: () => {
-        dispatch(addTodoItemAction());
-    },
-    handleItemDelete: (index) => {
-        dispatch(deleteTodoItemAction(index));
-    }
-});
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        handleInputChange: (e) => {
+            dispatch(getChangeInputAction(e.target.value));
+        },
+        handleSubmit: () => {
+            dispatch(addTodoItemAction());
+        },
+        handleItemDelete: (index) => {
+            dispatch(deleteTodoItemAction(index));
+        },
+        getTotoList: () => {
+            dispatch(getTodoListAction());
+        }
+    });
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

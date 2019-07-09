@@ -1,4 +1,10 @@
-import {ADD_TODO_ITEM, CHANGE_INPUT_VALUE, DELETE_TODO_ITEM} from "./actionTypes";
+import {
+    ADD_TODO_ITEM,
+    ADD_TODO_LIST,
+    CHANGE_INPUT_VALUE,
+    DELETE_TODO_ITEM,
+    GET_TODO_LIST
+} from "./actionTypes";
 
 export function getChangeInputAction(value) {
     return {
@@ -17,5 +23,18 @@ export function deleteTodoItemAction(index) {
 export function addTodoItemAction() {
     return {
         type: ADD_TODO_ITEM,
+    };
+};
+
+export function getTodoListAction() {
+    return {
+        type: GET_TODO_LIST,
+    };
+};
+
+export function addTodoListAction(list) {
+    return {
+        type: ADD_TODO_LIST,
+        list
     };
 };

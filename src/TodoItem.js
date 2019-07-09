@@ -2,15 +2,12 @@ import React, {Component} from "react";
 import PropTypes from 'prop-types';
 
 class TodoItem extends Component {
-    state = {};
-
     constructor(props) {
         super(props);
         this.handleItemClick = this.handleItemClick.bind(this);
     }
 
     render() {
-        console.log("render");
         const {content} = this.props;
         return <li onClick={this.handleItemClick}>{content}</li>;
     }
