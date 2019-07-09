@@ -31,7 +31,7 @@ class TodoItem extends Component {
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         console.log("shouldComponentUpdate");
-        return true;
+        return nextProps.content !== this.props.content;
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {

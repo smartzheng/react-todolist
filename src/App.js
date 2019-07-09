@@ -1,19 +1,19 @@
 import React, {Component, Fragment} from 'react';
 import './App.css'
-
 import TodoItem from "./TodoItem";
+import store from "./store";
+import {addTodoItemAction, deleteTodoItemAction, getChangeInputAction} from "./store/actionCreator";
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            inputValue: '',
-            list: []
-        };
+        this.state = store.getState();
         this.input = React.createRef();
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleItemDelete = this.handleItemDelete.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleStoreChange = this.handleStoreChange.bind(this);
+        store.subscribe(this.handleStoreChange);
     }
 
     render() {
@@ -30,7 +30,6 @@ class App extends Component {
                     onClick={this.handleSubmit}>
                     提交
                 </button>
-                <TodoItem content={'test'}/>
                 <ul>
                     {this.state.list.map((item, index) => {
                         return this.getTodoItem(item, index)
@@ -49,29 +48,19 @@ class App extends Component {
     }
 
     handleInputChange() {
-        const value = this.input.current.value;
-        this.setState(() => ({
-            inputValue: value
-        }))
+        store.dispatch(getChangeInputAction(this.input.current.value));
+    };
+
+    handleStoreChange() {
+        this.setState(store.getState());
     };
 
     handleSubmit() {
-        if (this.state.inputValue) {
-            this.setState((prevState) => ({
-                list: [...prevState.list, prevState.inputValue],
-                inputValue: ''
-            }))
-        } else {
-            alert("请输入内容")
-        }
+        store.dispatch(addTodoItemAction());
     };
 
     handleItemDelete(index) {
-        this.setState((prevState) => {
-            const list = [...prevState.list];
-            list.splice(index, 1);
-            return {list}
-        })
+        store.dispatch(deleteTodoItemAction(index));
     }
 }
 
