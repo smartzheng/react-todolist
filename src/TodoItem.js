@@ -19,33 +19,6 @@ class TodoItem extends Component {
         const {index} = this.props;
         this.props.deleteItem(index);
     }
-
-    componentDidMount() {
-        console.log("componentDidMount");
-    }
-
-    static getDerivedStateFromProps(nextProps, nextContext) {
-        console.log("getDerivedStateFromProps");
-        return null;
-    }
-
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        console.log("shouldComponentUpdate");
-        return nextProps.content !== this.props.content;
-    }
-
-    getSnapshotBeforeUpdate(prevProps, prevState) {
-        console.log("getSnapshotBeforeUpdate");
-        return null;
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log("componentDidUpdate");
-    }
-
-    componentWillUnmount() {
-        console.log("componentWillUnmount");
-    }
 }
 
 TodoItem.propTypes = {
